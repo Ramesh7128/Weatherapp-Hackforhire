@@ -8,7 +8,6 @@ class weatherreport(models.Model):
     date = models.CharField(max_length=30)
     condition = models.CharField(max_length=100)
     temperature = models.IntegerField()
-    date = models.DateField()
 
     def __unicode__(self):
         return self.state
