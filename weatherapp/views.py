@@ -26,18 +26,18 @@ def index(request):
 
         if location and noofdays and condition:
             dates = now+timedelta(days=str(noofdays))
-            locationlist = weatherreport.objects.filter(city__icontains=location, condition__icontains=condition,date=(now,dates))
+            locationlist = weatherreport.objects.filter(city__icontains=location, condition__icontains=condition)
 
         elif location and noofdays:
             dates = now+timedelta(days=str(noofdays))
-            locationlist = weatherreport.objects.filter(city__icontains=location, date=(now,dates))
+            locationlist = weatherreport.objects.filter(city__icontains=location)
 
         elif location and condition:
             locationlist = weatherreport.objects.filter(city__icontains=location, condition__icontains=condition)
 
         elif condition and noofdays:
             dates = now+timedelta(days=str(noofdays))
-            locationlist = weatherreport.objects.filter(date=(now,dates),condition__icontains=condition)
+            locationlist = weatherreport.objects.filter(condition__icontains=condition)
 
         elif condition:
             locationlist = weatherreport.objects.filter(condition__icontains=condition)
@@ -45,11 +45,25 @@ def index(request):
             locationlist = weatherreport.objects.filter(city__icontains=location)
 
         else:
-            dates = now+timedelta(days=str(noofdays))
-            locationlist = weatherreport.objects.filter(date=(now,dates))
+            locationlist = weatherreport.objects.all()
+
+        noofdays = int(noofdays)
+        # if noofdays:
+        #     newlist = []
+        #     cityname=""
+        #     for lolist in locationlist:
+        #        newlist=weatherreport()
+        #        if noofdays and cityname!=lolist.city:
+        #            newlist = lolist
+        #            cityname = lolist.city
+        #            noofdays = noofdays-1
+
+
+
 
 
         context_dict['locationlist'] = locationlist
+        context_dict['noofdays'] = noofdays
     # if a GET (or any other method) we'll create a blank form
     else:
         form = FilterForm()
