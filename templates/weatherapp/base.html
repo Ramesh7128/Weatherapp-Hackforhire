@@ -4,22 +4,56 @@
 <html>
 
     <head>
-        <title>Weatherapp</title>
+
+        <head>
+        <title>WeatherApp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="{% static 'css/bootstrap-fluid-adj.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
     </head>
 
-    <body>
-        <h1>Weatherapp</h1>
-        <form action="/weatherapp/" method="post">
-        {% csrf_token %}
-            {{ form }}
-        <input type="submit" value="Submit" />
-        </form>
-        {{ location }}{{ fromdate }}{{ todate }}{{ condition }}
-        <strong>{% for var in variables %}
-            {{ var.id }}-{{ var.city }} - {{ var.state }} - {{ var.condition }} - {{ var.date }}<br>
+        <body>
+        <div style="background: #000000;" class="row">
+            <div class="span12">
+                <h1 style="color: #fff;" class="text-center">Weatherapp- Pro</h1>
+            </div>
+        </div>
+
+        <div class="hero-unit">
+            <form class="text-center" action="/weatherapp/" method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    {{ form }}
+                </div>
+            <input class="btn btn-primary" type="submit" value="Submit" />
+            </form><br><br>
+            <table class="table">
+            <thead>
+            <tr>
+                <th>State</th>
+                <th>City</th>
+                <th>Condition</th>
+                <th>Date</th>
+                <th>Temperature(K)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for var in locationlist %}
+            <tr>
+                <td>{{ var.state }}</td>
+                <td>{{ var.city }}</td>
+                <td>{{ var.condition }}</td>
+                <td>{{ var.date }}</td>
+                <td>{{ var.temperature }}</td>
+            </tr>
             {% endfor %}
-        <img src="https://maps.googleapis.com/maps/api/staticmap?center=Delhi,IN&zoom=14&size=800x400">
-        </strong><br />
+            </tbody>
+            </table>
+            <img src="https://maps.googleapis.com/maps/api/staticmap?center=Delhi,IN&zoom=14&size=800x400">
+            </strong><br />
+        </div>
     </body>
 
 </html>
