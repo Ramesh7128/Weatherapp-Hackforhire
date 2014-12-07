@@ -9,7 +9,17 @@
 
     <body>
         <h1>Weatherapp</h1>
-        <strong>{{ message }}</strong><br />
+        <form action="/weatherapp/" method="post">
+        {% csrf_token %}
+            {{ form }}
+        <input type="submit" value="Submit" />
+        </form>
+        {{ location }}{{ fromdate }}{{ todate }}{{ condition }}
+        <strong>{% for var in variables %}
+            {{ var.id }}-{{ var.city }} - {{ var.state }} - {{ var.condition }} - {{ var.date }}<br>
+            {% endfor %}
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center=Delhi,IN&zoom=14&size=800x400">
+        </strong><br />
     </body>
 
 </html>

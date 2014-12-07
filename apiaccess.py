@@ -17,29 +17,32 @@ setup_environ(settings)
 
 def weatherdetails():
 
-    jsondata = open('state_city1.js')
+    jsondata = open('state_city.js')
     statescitylist = json.load(jsondata)
     print statescitylist
     for key, value in statescitylist.items():
-        url = "http://api.openweathermap.org/data/2.5/forecast?q="+value[0]+"&cnt=10"
-        languages = urllib2.urlopen(url)
-        datalang = json.load(languages)
-        l = ""
-        for k, v in datalang.items():
-            if k=="list":
-                j = 0
-                for i in v:
-                    try:
-                        d = datalang['list'][j]['dt_txt']
-                        d = d[0:-9]
-                        if l!=d:
-                            weatherreport.objects.create(state=key,city=datalang['city']['name'],date=d,condition=datalang['list'][j]['weather'][0]['description'],temperature=int(datalang['list'][j]['main']['temp_max']))
-                            l = d
+        for val in value:
+            try:
+                url = "http://api.openweathermap.org/data/2.5/forecast?q="+val+"&cnt=10"
+                languages = urllib2.urlopen(url)
+                datalang = json.load(languages)
+                l = ""
+                for k, v in datalang.items():
+                    if k=="list":
+                        j = 0
+                        for i in v:
+                            try:
+                                d = datalang['list'][j]['dt_txt']
+                                dat = d[0:-9]
+                                if l!=dat:
+                                    weatherreport.objects.create(state=key,city=datalang['city']['name'],date=d,condition=datalang['list'][j]['weather'][0]['description'],temperature=int(datalang['list'][j]['main']['temp_max']))
+                                    l = dat
 
-                        j+= 1
-                    except:
-                        pass
-
+                                j+= 1
+                            except:
+                                pass
+            except:
+                pass
 
 if __name__=="__main__":
     weatherdetails()
